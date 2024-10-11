@@ -4,7 +4,7 @@ import com.java.shinhan.team_fund_manage.constaints.HttpStatusCode;
 import com.java.shinhan.team_fund_manage.payload.request.memberRequest.AddMemberRequest;
 import com.java.shinhan.team_fund_manage.payload.response.BaseResponse;
 import com.java.shinhan.team_fund_manage.payload.response.BaseResponseBuilder;
-import com.java.shinhan.team_fund_manage.service.implementation.MemberService;
+import com.java.shinhan.team_fund_manage.service.IMemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/members")
 public class MemberController {
-    private final MemberService memberService;
+    private final IMemberService memberService;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(IMemberService memberService) {
         this.memberService = memberService;
     }
 
