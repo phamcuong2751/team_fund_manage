@@ -9,12 +9,8 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface MemberMapper {
     MemberMapper INSTANCE = Mappers.getMapper(MemberMapper.class);
-
-    @Mapping(target = "name", source = "name")
-//    @Mapping(target = "status", source = "status")
-//    @Mapping(target = "phone", source = "phone")
-//    @Mapping(target = "email", source = "email")
-//    @Mapping(target = "join_date", source = "join_date")
-//    @Mapping(target = "birthday", source = "birthday")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createAt", ignore = true)
+    @Mapping(target = "updateAt", ignore = true)
     MemberEntity requestToEntity(AddMemberRequest request);
 }

@@ -1,17 +1,16 @@
 package com.java.shinhan.team_fund_manage.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity()
 @Table(name = "member")
-@Getter
-@Setter
 @Data
 public class MemberEntity {
     @Id
@@ -41,5 +40,4 @@ public class MemberEntity {
 
     @Column(name = "update_at")
     private LocalDateTime updateAt = LocalDateTime.now();
-
 }
