@@ -1,7 +1,5 @@
 package com.java.shinhan.team_fund_manage.payload.request.memberRequest;
 
-
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;

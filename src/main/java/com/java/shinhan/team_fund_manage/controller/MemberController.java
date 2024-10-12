@@ -2,6 +2,7 @@ package com.java.shinhan.team_fund_manage.controller;
 
 import com.java.shinhan.team_fund_manage.constaints.HttpStatusCode;
 import com.java.shinhan.team_fund_manage.payload.request.memberRequest.AddMemberRequest;
+import com.java.shinhan.team_fund_manage.payload.request.memberRequest.DeleteMemberRequest;
 import com.java.shinhan.team_fund_manage.payload.response.BaseResponse;
 import com.java.shinhan.team_fund_manage.payload.response.BaseResponseBuilder;
 import com.java.shinhan.team_fund_manage.service.IMemberService;
@@ -36,6 +37,17 @@ public class MemberController {
     public ResponseEntity<BaseResponse> addMember(@RequestBody AddMemberRequest memberRequest) {
         try {
             BaseResponse response = memberService.addMember(memberRequest);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(BaseResponseBuilder.build(HttpStatusCode.INTERNAL_SERVER_ERROR.code, e.getMessage()), HttpStatus.OK);
+        }
+
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.DELETE)
+    public ResponseEntity<BaseResponse> deleteMember(@RequestBody DeleteMemberRequest request) {
+        try {
+            BaseResponse response = memberService.deleteMember(request);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(BaseResponseBuilder.build(HttpStatusCode.INTERNAL_SERVER_ERROR.code, e.getMessage()), HttpStatus.OK);

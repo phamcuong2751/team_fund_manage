@@ -7,7 +7,11 @@ public enum ApiLabel {
     DELETE_SUCCESS("Delete success"),
     NOT_FOUND("Not found data"),
     INTERNAL_SERVER_ERROR("Internal Server Error"),
-    BAD_REQUEST("Bad request");
+    BAD_REQUEST("Bad request"),
+    BAD_MEM_STATUS("Invalid status provided"),
+    MEM_ALREADY_TERMINATED("Member Already Terminated"),
+    MEM_NOT_FOUND("Member not found")
+    ;
 
     public final String text;
     public String getMessage() {
