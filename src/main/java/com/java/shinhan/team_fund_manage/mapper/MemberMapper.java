@@ -7,7 +7,6 @@ import com.java.shinhan.team_fund_manage.payload.response.memberResponse.AddMemb
 import com.java.shinhan.team_fund_manage.payload.response.memberResponse.GetAllMemberResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -23,5 +22,5 @@ public interface MemberMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createAt", ignore = true)
     @Mapping(target = "updateAt", ignore = true)
-    MemberEntity updateMemberFromDto(UpdateMemberRequest dto, @MappingTarget MemberEntity member);
+    MemberEntity updateRequestToMember(UpdateMemberRequest request);
 }
