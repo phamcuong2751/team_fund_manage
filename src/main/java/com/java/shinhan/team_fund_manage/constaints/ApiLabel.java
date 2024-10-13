@@ -10,7 +10,8 @@ public enum ApiLabel {
     BAD_REQUEST("Bad request"),
     BAD_MEM_STATUS("Invalid status provided"),
     MEM_ALREADY_TERMINATED("Member Already Terminated"),
-    MEM_NOT_FOUND("Member not found")
+    MEM_NOT_FOUND("Member not found"),
+    VALIDATION_FAIL("Validation fail"),
     ;
 
     public final String text;

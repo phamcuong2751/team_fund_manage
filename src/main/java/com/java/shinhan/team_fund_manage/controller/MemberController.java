@@ -3,6 +3,7 @@ package com.java.shinhan.team_fund_manage.controller;
 import com.java.shinhan.team_fund_manage.constaints.HttpStatusCode;
 import com.java.shinhan.team_fund_manage.payload.request.memberRequest.AddMemberRequest;
 import com.java.shinhan.team_fund_manage.payload.request.memberRequest.DeleteMemberRequest;
+import com.java.shinhan.team_fund_manage.payload.request.memberRequest.UpdateMemberRequest;
 import com.java.shinhan.team_fund_manage.payload.response.BaseResponse;
 import com.java.shinhan.team_fund_manage.payload.response.BaseResponseBuilder;
 import com.java.shinhan.team_fund_manage.service.IMemberService;
@@ -34,9 +35,20 @@ public class MemberController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<BaseResponse> addMember(@RequestBody AddMemberRequest memberRequest) {
+    public ResponseEntity<BaseResponse> addMember(@RequestBody AddMemberRequest request) {
         try {
-            BaseResponse response = memberService.addMember(memberRequest);
+            BaseResponse response = memberService.addMember(request);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(BaseResponseBuilder.build(HttpStatusCode.INTERNAL_SERVER_ERROR.code, e.getMessage()), HttpStatus.OK);
+        }
+
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.PUT)
+    public ResponseEntity<BaseResponse> updateMember(@RequestBody UpdateMemberRequest request) {
+        try {
+            BaseResponse response = memberService.updateMember(request);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(BaseResponseBuilder.build(HttpStatusCode.INTERNAL_SERVER_ERROR.code, e.getMessage()), HttpStatus.OK);

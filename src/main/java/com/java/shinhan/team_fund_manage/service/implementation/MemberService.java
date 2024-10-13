@@ -7,44 +7,84 @@ import com.java.shinhan.team_fund_manage.entity.MemberEntity;
 import com.java.shinhan.team_fund_manage.mapper.MemberMapper;
 import com.java.shinhan.team_fund_manage.payload.request.memberRequest.AddMemberRequest;
 import com.java.shinhan.team_fund_manage.payload.request.memberRequest.DeleteMemberRequest;
+import com.java.shinhan.team_fund_manage.payload.request.memberRequest.UpdateMemberRequest;
 import com.java.shinhan.team_fund_manage.payload.response.BaseResponse;
 import com.java.shinhan.team_fund_manage.payload.response.BaseResponseBuilder;
 import com.java.shinhan.team_fund_manage.payload.response.memberResponse.AddMemberResponse;
+import com.java.shinhan.team_fund_manage.payload.response.memberResponse.GetAllMemberResponse;
 import com.java.shinhan.team_fund_manage.repository.MemberRepository;
 import com.java.shinhan.team_fund_manage.service.IMemberService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberService implements IMemberService {
-
     private final MemberRepository memberRepository;
 
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
-    }
 
+    }
 
     @Override
     public BaseResponse getAllMember() {
-        return BaseResponseBuilder.build(HttpStatusCode.OK.code, ApiLabel.GET_SUCCESS.getMessage(), memberRepository.findAll());
+        List<MemberEntity> allMembers = memberRepository.findAll();
+
+        //Just get member still working
+        List<GetAllMemberResponse> memberResponses =
+                allMembers.stream()
+                        .filter(member -> !"9".equals(member.getStatus()))
+                        .map(MemberMapper.INSTANCE::getAllToResponse)
+                        .collect(Collectors.toList());
+
+        return BaseResponseBuilder.build(
+                HttpStatusCode.OK.code,
+                ApiLabel.GET_SUCCESS.getMessage(),
+                memberResponses
+        );
+
     }
 
     @Override
     public BaseResponse addMember(AddMemberRequest member) {
         MemberEntity entity = MemberMapper.INSTANCE.requestToEntity(member);
         memberRepository.save(entity);
-        AddMemberResponse response  = MemberMapper.INSTANCE.entityToResponse(entity);
+        AddMemberResponse response = MemberMapper.INSTANCE.addMemToResponse(entity);
         response.setStatus(MemberStatus.fromStatus(response.getStatus()));
-        return BaseResponseBuilder.build(HttpStatusCode.OK.code, ApiLabel.INSERT_SUCCESS.getMessage(), response);
+
+        return BaseResponseBuilder.build(
+                HttpStatusCode.OK.code,
+                ApiLabel.INSERT_SUCCESS.getMessage(),
+                response
+        );
     }
 
     @Override
-    public BaseResponse updateMember(MemberEntity member) {
-        return null;
+    public BaseResponse updateMember(UpdateMemberRequest request) {
+        // Fetch the member by ID
+        Optional<MemberEntity> optionalMember = memberRepository.findById(request.getId());
+
+        if (optionalMember.isEmpty()) {
+            return BaseResponseBuilder.build(
+                    HttpStatusCode.NOT_FOUND.code,
+                    ApiLabel.NOT_FOUND.getMessage(),
+                    ApiLabel.MEM_NOT_FOUND.text
+            );
+        }
+
+        MemberEntity member = optionalMember.get();
+        MemberMapper.INSTANCE.updateMemberFromDto(request, member);
+        member.setUpdateAt(LocalDateTime.now());
+        memberRepository.save(member);
+
+        return BaseResponseBuilder.build(
+                HttpStatusCode.OK.code,
+                ApiLabel.UPDATE_SUCCESS.getMessage()
+        );
     }
 
     @Override
@@ -54,7 +94,7 @@ public class MemberService implements IMemberService {
             MemberEntity entity = optionalMember.get();
 
             //Check status if status is "9" termination request
-            if (MemberStatus.COMPANY_OUT.status.equals(member.getStatus()) ) {
+            if (MemberStatus.COMPANY_OUT.status.equals(entity.getStatus())) {
                 return BaseResponseBuilder.build(HttpStatusCode.BAD_REQUEST.code, ApiLabel.MEM_ALREADY_TERMINATED.getMessage());
             }
 
