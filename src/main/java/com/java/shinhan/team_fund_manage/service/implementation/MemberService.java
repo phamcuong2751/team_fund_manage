@@ -77,7 +77,7 @@ public class MemberService implements IMemberService {
         }
 
         MemberEntity member = optionalMember.get();
-        MemberMapper.INSTANCE.updateMemberFromDto(request, member);
+        MemberMapper.INSTANCE.updateRequestToMember(request);
         member.setUpdateAt(LocalDateTime.now());
         memberRepository.save(member);
 
