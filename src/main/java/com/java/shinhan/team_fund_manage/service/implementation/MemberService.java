@@ -6,7 +6,6 @@ import com.java.shinhan.team_fund_manage.constaints.MemberStatus;
 import com.java.shinhan.team_fund_manage.entity.MemberEntity;
 import com.java.shinhan.team_fund_manage.mapper.MemberMapper;
 import com.java.shinhan.team_fund_manage.payload.request.memberRequest.AddMemberRequest;
-import com.java.shinhan.team_fund_manage.payload.request.memberRequest.DeleteMemberRequest;
 import com.java.shinhan.team_fund_manage.payload.request.memberRequest.UpdateMemberRequest;
 import com.java.shinhan.team_fund_manage.payload.response.BaseResponse;
 import com.java.shinhan.team_fund_manage.payload.response.BaseResponseBuilder;
@@ -69,8 +68,8 @@ public class MemberService implements IMemberService {
     }
 
     @Override
-    public BaseResponse deleteMember(DeleteMemberRequest member) {
-        Optional<MemberEntity> optionalMember = memberRepository.findById(member.getId());
+    public BaseResponse deleteMember(Long id) {
+        Optional<MemberEntity> optionalMember = memberRepository.findById(id);
         if (optionalMember.isPresent()) {
             MemberEntity entity = optionalMember.get();
 

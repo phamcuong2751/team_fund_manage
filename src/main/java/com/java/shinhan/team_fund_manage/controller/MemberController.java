@@ -2,7 +2,6 @@ package com.java.shinhan.team_fund_manage.controller;
 
 import com.java.shinhan.team_fund_manage.constaints.HttpStatusCode;
 import com.java.shinhan.team_fund_manage.payload.request.memberRequest.AddMemberRequest;
-import com.java.shinhan.team_fund_manage.payload.request.memberRequest.DeleteMemberRequest;
 import com.java.shinhan.team_fund_manage.payload.request.memberRequest.UpdateMemberRequest;
 import com.java.shinhan.team_fund_manage.payload.response.BaseResponse;
 import com.java.shinhan.team_fund_manage.payload.response.BaseResponseBuilder;
@@ -64,10 +63,10 @@ public class MemberController {
 
     }
 
-    @RequestMapping(value = "", method = RequestMethod.DELETE)
-    public ResponseEntity<BaseResponse> deleteMember(@RequestBody DeleteMemberRequest request) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<BaseResponse> deleteMember(@PathVariable Long id) {
         try {
-            BaseResponse response = memberService.deleteMember(request);
+            BaseResponse response = memberService.deleteMember(id);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(BaseResponseBuilder.build(HttpStatusCode.INTERNAL_SERVER_ERROR.code, e.getMessage()), HttpStatus.OK);

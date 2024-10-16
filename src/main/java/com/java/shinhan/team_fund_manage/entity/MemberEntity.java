@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity()
 @Table(name = "member")
@@ -37,4 +38,7 @@ public class MemberEntity {
 
     @Column(name = "update_at")
     private LocalDateTime updateAt = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "member")
+    private Set<AccountEntity> accounts;
 }

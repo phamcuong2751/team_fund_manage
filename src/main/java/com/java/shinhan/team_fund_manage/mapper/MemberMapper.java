@@ -16,11 +16,13 @@ public interface MemberMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createAt", ignore = true)
     @Mapping(target = "updateAt", ignore = true)
+    @Mapping(target = "accounts", ignore = true)
     MemberEntity requestToEntity(AddMemberRequest request);
     AddMemberResponse addMemToResponse(MemberEntity entity);
     GetAllMemberResponse getAllToResponse(MemberEntity member);
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createAt", ignore = true)
     @Mapping(target = "updateAt", ignore = true)
+    @Mapping(target = "accounts", ignore = true)
     MemberEntity updateRequestToMember(UpdateMemberRequest request);
 }
