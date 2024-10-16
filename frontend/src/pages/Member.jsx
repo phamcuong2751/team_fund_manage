@@ -7,7 +7,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs'; // Import dayjs for date handling
 import axiosInstance from '../api/api'; // Your Axios instance
-import { Grid } from '@mui/material';
 
 export default function Member() {
     const [members, setMembers] = useState([]);
@@ -157,8 +156,12 @@ export default function Member() {
             <Button size="small" onClick={handleAddRow}>
                 Add a row
             </Button>
-            <div style={{ height: 350, width: '100%', marginTop: '16px' }}>
-                <DataGrid rows={members} columns={columns} pageSize={5} />
+
+            <Button size="small" >
+                DELETE
+            </Button>
+            <div style={{ height: 400, width: '100%', marginTop: '16px' }}>
+                <DataGrid rows={members} columns={columns} pageSize={10} />
             </div>
         </div>
     );

@@ -35,17 +35,9 @@ public class MemberService implements IMemberService {
         List<MemberEntity> allMembers = memberRepository.findAll();
 
         //Just get member still working
-        List<GetAllMemberResponse> memberResponses =
-                allMembers.stream()
-                        .filter(member -> !"9".equals(member.getStatus()))
-                        .map(MemberMapper.INSTANCE::getAllToResponse)
-                        .collect(Collectors.toList());
+        List<GetAllMemberResponse> memberResponses = allMembers.stream().filter(member -> !"9".equals(member.getStatus())).map(MemberMapper.INSTANCE::getAllToResponse).collect(Collectors.toList());
 
-        return BaseResponseBuilder.build(
-                HttpStatusCode.OK.code,
-                ApiLabel.GET_SUCCESS.getMessage(),
-                memberResponses
-        );
+        return BaseResponseBuilder.build(HttpStatusCode.OK.code, ApiLabel.GET_SUCCESS.getMessage(), memberResponses);
 
     }
 
@@ -56,11 +48,7 @@ public class MemberService implements IMemberService {
         AddMemberResponse response = MemberMapper.INSTANCE.addMemToResponse(entity);
         response.setStatus(MemberStatus.fromStatus(response.getStatus()));
 
-        return BaseResponseBuilder.build(
-                HttpStatusCode.OK.code,
-                ApiLabel.INSERT_SUCCESS.getMessage(),
-                response
-        );
+        return BaseResponseBuilder.build(HttpStatusCode.OK.code, ApiLabel.INSERT_SUCCESS.getMessage(), response);
     }
 
     @Override
@@ -69,11 +57,7 @@ public class MemberService implements IMemberService {
         Optional<MemberEntity> optionalMember = memberRepository.findById(request.getId());
 
         if (optionalMember.isEmpty()) {
-            return BaseResponseBuilder.build(
-                    HttpStatusCode.NOT_FOUND.code,
-                    ApiLabel.NOT_FOUND.getMessage(),
-                    ApiLabel.MEM_NOT_FOUND.text
-            );
+            return BaseResponseBuilder.build(HttpStatusCode.NOT_FOUND.code, ApiLabel.NOT_FOUND.getMessage(), ApiLabel.MEM_NOT_FOUND.text);
         }
 
         MemberEntity member = optionalMember.get();
@@ -81,10 +65,7 @@ public class MemberService implements IMemberService {
         member.setUpdateAt(LocalDateTime.now());
         memberRepository.save(member);
 
-        return BaseResponseBuilder.build(
-                HttpStatusCode.OK.code,
-                ApiLabel.UPDATE_SUCCESS.getMessage()
-        );
+        return BaseResponseBuilder.build(HttpStatusCode.OK.code, ApiLabel.UPDATE_SUCCESS.getMessage());
     }
 
     @Override
@@ -111,7 +92,10 @@ public class MemberService implements IMemberService {
     }
 
     @Override
-    public BaseResponse getMember(MemberEntity member) {
-        return null;
+    public BaseResponse getMemberByName(String name) {
+        String sqlName = '%' + name + '%';
+
+        List<MemberEntity> members = memberRepository.findByNameLikeAndStatusIsNot(sqlName, MemberStatus.COMPANY_OUT.status);
+        return BaseResponseBuilder.build(HttpStatusCode.OK.code, ApiLabel.GET_SUCCESS.getMessage(), members);
     }
 }

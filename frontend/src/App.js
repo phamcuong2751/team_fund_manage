@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import MyScheduler from './pages/MyScheduler';
-
+import Member from './pages/Member'
 const App = () => {
  
   return (
@@ -9,7 +8,7 @@ const App = () => {
       <div>
         <Routes>
           <Route path="/" element={<Home  />} />
-          <Route path="/scheduler" element={<MyScheduler  />} />
+          <Route path="/member" element={<Member  />} />
         </Routes>
       </div>
     </Router>

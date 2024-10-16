@@ -9,10 +9,7 @@ import com.java.shinhan.team_fund_manage.payload.response.BaseResponseBuilder;
 import com.java.shinhan.team_fund_manage.service.IMemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/members")
@@ -27,6 +24,17 @@ public class MemberController {
     public ResponseEntity<BaseResponse> getAllMember() {
         try {
             BaseResponse response = memberService.getAllMember();
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(BaseResponseBuilder.build(HttpStatusCode.INTERNAL_SERVER_ERROR.code, e.getMessage()), HttpStatus.OK);
+        }
+
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ResponseEntity<BaseResponse> getMemberByName(@RequestParam(value = "name") String name) {
+        try {
+            BaseResponse response = memberService.getMemberByName(name);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(BaseResponseBuilder.build(HttpStatusCode.INTERNAL_SERVER_ERROR.code, e.getMessage()), HttpStatus.OK);
