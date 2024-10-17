@@ -1,5 +1,6 @@
 package com.java.shinhan.team_fund_manage.service.implementation;
 
+import com.java.shinhan.team_fund_manage.constaints.AccountStatus;
 import com.java.shinhan.team_fund_manage.constaints.ApiLabel;
 import com.java.shinhan.team_fund_manage.constaints.HttpStatusCode;
 import com.java.shinhan.team_fund_manage.entity.AccountEntity;
@@ -26,7 +27,13 @@ public class AccountService implements IAccountService {
     @Override
     public BaseResponse getAllAccount() {
         List<AccountEntity> allAccount = accountRepository.findAll();
-        List<GetAccountListResponse> responses = allAccount.stream().map(AccountMapper.INSTANCE::getAllEntityToResponse).collect(Collectors.toList());
+        List<GetAccountListResponse> responses = allAccount.stream()
+                .map(account -> {
+                    GetAccountListResponse response = AccountMapper.INSTANCE.getAllEntityToResponse(account);
+                    response.setStatus(AccountStatus.fromStatus(response.getStatus()));
+                    return response;
+                })
+                .collect(Collectors.toList());
         return BaseResponseBuilder.build(HttpStatusCode.OK.code, ApiLabel.GET_SUCCESS.getMessage(), responses);
     }
 
@@ -37,6 +44,8 @@ public class AccountService implements IAccountService {
 
     @Override
     public BaseResponse insert(AddAccountRequest request) {
-        return null;
+        AccountEntity entity = AccountMapper.INSTANCE.getRequestToEntity(request);
+        accountRepository.save(entity);
+        return BaseResponseBuilder.build(HttpStatusCode.OK.code, ApiLabel.INSERT_SUCCESS.getMessage());
     }
 }
