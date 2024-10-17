@@ -5,7 +5,7 @@ import com.java.shinhan.team_fund_manage.payload.response.BaseResponse;
 
 public interface IAccountService {
     BaseResponse getAllAccount();
-    BaseResponse getAccount(String account_no);
+    BaseResponse getAccount(String accountNo);
     BaseResponse insert(AddAccountRequest request);
-
+    BaseResponse delete(String accountNo);
 }

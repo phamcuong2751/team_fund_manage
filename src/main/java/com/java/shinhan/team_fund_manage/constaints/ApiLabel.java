@@ -12,6 +12,9 @@ public enum ApiLabel {
     MEM_ALREADY_TERMINATED("Member Already Terminated"),
     MEM_NOT_FOUND("Member not found"),
     VALIDATION_FAIL("Validation fail"),
+    ACCOUNT_ALREADY_USE("Account already exists for the given member and account number"),
+    ACCOUNT_NOT_FOUND("Account no not found"),
+    ACCOUNT_EXISTING("Account already have in system"),
     ;
 
     public final String text;

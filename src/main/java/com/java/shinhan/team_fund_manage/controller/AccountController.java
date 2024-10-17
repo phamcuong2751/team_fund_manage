@@ -7,10 +7,7 @@ import com.java.shinhan.team_fund_manage.payload.response.BaseResponseBuilder;
 import com.java.shinhan.team_fund_manage.service.implementation.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/accounts")
@@ -39,6 +36,15 @@ public class AccountController {
         } catch (Exception e) {
             return new ResponseEntity<>(BaseResponseBuilder.build(HttpStatusCode.INTERNAL_SERVER_ERROR.code, e.getMessage()), HttpStatus.OK);
         }
+    }
 
+    @RequestMapping(value = "/{accountNo}", method = RequestMethod.DELETE)
+    public ResponseEntity<BaseResponse> deleteAccount(@PathVariable String accountNo) {
+        try {
+            BaseResponse response = accountService.delete(accountNo);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(BaseResponseBuilder.build(HttpStatusCode.INTERNAL_SERVER_ERROR.code, e.getMessage()), HttpStatus.OK);
+        }
     }
 }

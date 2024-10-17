@@ -21,13 +21,13 @@ public class AccountEntity {
     @Column(name = "bank_name")
     private String bankName;
 
-    @Column(name = "bank_code")
+    @Column(name = "bank_code", unique = true)
     private String bankCode;
 
     @Column(name = "account_name")
     private String accountName;
 
-    @Column(name = "account_no")
+    @Column(name = "account_no", unique = true)
     private String accountNo;
 
     @Column(name = "status")
