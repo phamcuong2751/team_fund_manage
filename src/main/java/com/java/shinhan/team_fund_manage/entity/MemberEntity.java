@@ -41,4 +41,7 @@ public class MemberEntity {
 
     @OneToMany(mappedBy = "member")
     private Set<AccountEntity> accounts;
+
+    @OneToMany(mappedBy = "member")
+    private Set<TransactionEntity> transaction;
 }
